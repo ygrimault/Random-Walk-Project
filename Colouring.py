@@ -19,7 +19,7 @@ class Colouring:
         """
         Assign a random coloring to the graph.
         """
-        self.graph.coloring = [randrange(self.q) for _ in self.graph.n]
+        self.graph.coloring = [randrange(self.q) for _ in range(self.graph.n)]
         self.H = self.hamiltonian()
 
     def hamiltonian(self):
