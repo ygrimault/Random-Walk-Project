@@ -6,7 +6,7 @@ class Graph:
     def __init__(self, n, mat):
         self.n = n
         self.adjacency = list(map(lambda row: set([i for i, x in enumerate(row) if x == 1]), mat))
-        self.coloring = [0 for _ in range(n)]
+        self.coloring = [0] * n
 
     def __repr__(self):
         string = "List of vertices :\n"
@@ -24,7 +24,7 @@ class Graph:
 
 
 def erdos_renyi(n, c):
-    mat = [[0 for _ in range(n)] for _ in range(n)]
+    mat = [[0] * n] * n
     for i in range(n):
         for j in range(i):
             r = int(random() < 1.0 * c / n)
