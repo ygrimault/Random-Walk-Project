@@ -1,4 +1,5 @@
 \documentclass[a4paper, 11pt]{article}
+\usepackage[english]{babel}
 \usepackage{mathpazo}
 \usepackage{amsmath}	
 \usepackage{amssymb}	
@@ -46,18 +47,18 @@
 
 To choose $\beta$ among all possible functions, our first approach was to use a polynomial and, using bandit, make the coefficient converge to an optimal polynomial for the given degree. We hopped that the coefficient represent a well known power series and retrieve a good function. But several problem appears. First, this problem is not a priori convex. Thus, the best we can do is to find a local minimum (or use simulated annealing but it makes the problem recursive). However, this method is still useful to find local minima which can be good idea or to test if a candidate function is a minimum: in this case, it is a fixpoint.
 
-Starting from the initial polynomial $\sum\limits_{i=0}^n X^i$, the algorithm converge quickly but to a very close polynomial. This is not a good news a priori since $\sum\limits_{i=0} X^i = \frac{1}{1-x}$ with a radius of convergence of 1. This is a bad news since the temperature is affine decreasing, thus reach 0 in finite time, ie. $\beta$ diverges in finite time.
+Starting from the initial polynomial $\sum\limits_{i=0}^n X^i$, the algorithm converge quickly but to a very close polynomial. This is not a good news a priori since $\sum\limits_{i=0} x^i = \frac{1}{1-x}$ with a radius of convergence of 1. This is a bad news since the temperature is affine decreasing, thus reach 0 in finite time, ie. $\beta$ diverges in finite time.
 
 \bigskip
 
-Functions of the form $x\mapsto \exp(ax)$ are pretty interesting for different reasons. First (but not very convincing) the inverse is a function of the form $x\mapsto \exp(-ax)$ which is the kind of functions we found when we let an object cool. Moreover, it is this kind of function we found in the literature (eg.~\cite{chams1987some}). Finally, these functions are fixpoints of our bandit. So, it seems reasonable to use a function like
+Functions of the form $x\mapsto k\exp(ax)$ are pretty interesting for different reasons. First (but not very convincing) the inverse is a function of the form $x\mapsto k^{-1}\exp(-ax)$ which is the kind of functions we found when we let an object cool. Moreover, it is this kind of function we found in the literature (eg.~\cite{chams1987some}). Finally, these functions are fixpoints of our bandit. So, it seems reasonable to use a function like
 \[
 	\begin{aligned}
 		\beta : \NN &\to \RR\\
 		n &\mapsto \beta_0\exp\left(-a\left\lfloor \frac{n}{\tau} \right\rfloor \right)
 	\end{aligned}
 \]
-This function is constant on any interval $\llbracket k\tau; (k+1)\tau -1\rrbracket$ for all integer $k$ and $\forall k\in\NN, \exp(-a)\beta(k\tau) = \beta((k+1)\tau)$. Thus, in the following, we will adapt only two parameters: $a$ and $\tau$ (which impact strongly the quality of the result~\cite{chams1987some}).
+This function is constant on any interval $\llbracket k\tau; (k+1)\tau -1\rrbracket$ for all non negative integer $k$ and $\forall k\in\NN, \exp(-a)\beta(k\tau) = \beta((k+1)\tau)$. Thus, in the following, we will adapt only two parameters: $a$ and $\tau$ (which impact strongly the quality of the result~\cite{chams1987some}).
 
 To find these parameters we have used a modified version of the bandit. \todo{results}
 
