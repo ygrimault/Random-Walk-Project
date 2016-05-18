@@ -1,6 +1,9 @@
 from random import *
 from math import *
 
+import matplotlib.pyplot as plt
+# Make sure you installed it on your computer. I used Anaconda to have it all (@Yannick)
+
 
 class Colouring:
     """ All functions related to colouring the graph """
@@ -41,6 +44,13 @@ class Colouring:
         for _ in range(n):
             self.step()
             H_hist.append(self.H)
+        
+        plt.plot(H_hist)
+        plt.xlabel('Time (iterations)')
+        plt.ylabel('Hamiltonian of the graph')
+        plt.title('Metropolis Algorithm')
+        plt.grid(True)
+        plt.show()
 
         return H_hist
 
