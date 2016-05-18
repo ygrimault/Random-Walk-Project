@@ -23,6 +23,7 @@ class Colouring:
         self.H = None
         self.beta = beta
         self.t = 0
+        self.previous_beta = sqrt(self.graph.n)
 
     def init_random_coloring(self):
         """
@@ -35,14 +36,12 @@ class Colouring:
         """
         :return: The Hamiltonian function of the current coloring (we suppose that every vertex has been colored
         """
-        return \
-            sum(map(
-                    lambda a:
-                    sum(filter(
-                            lambda b: int(self.graph.coloring[a] == self.graph.coloring[b]),
-                            self.graph.adjacency[a])),
-                    range(self.graph.n)))\
-            / 2
+        h = 0
+        for i in range(self.graph.n):
+            for j in self.graph.adjacency[i]:
+                if self.graph.coloring[i] == self.graph.coloring[j]:
+                    h += 1
+        return h/2
 
     def metropolis(self, n):
         self.init_random_coloring()
@@ -93,7 +92,8 @@ class Colouring:
             elif self.graph.coloring[u] == old_color:
                 delta -= 1
 
-        if delta <= 0 or random() < exp(-self.beta(self.t)*delta):
+        self.previous_beta = self.beta(self.t, self.previous_beta)
+        if delta <= 0 or random() < exp(-self.previous_beta*delta):
             self.graph.coloring[v] = new_color
             self.H += delta
 

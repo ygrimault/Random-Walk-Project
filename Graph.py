@@ -22,7 +22,7 @@ class Graph:
 
 
 def erdos_renyi(n, c):
-    mat = [[0] * n] * n
+    mat = [[0]*n for _ in range(n)]
     for i in range(n):
         for j in range(i):
             r = int(random() < 1.0 * c / n)

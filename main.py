@@ -10,9 +10,6 @@ except ImportError:
     sys.exit(1)
 
 
-def beta(t):
-    return 1.0/(t**.5+1)
-
 if __name__ == '__main__':
     # Create a random graph with N = 1000 vertices
     g = Graph.erdos_renyi(1000, 1.87)

@@ -134,7 +134,7 @@ class BanditBeta:
 
         :return: lambda: \R -> \R
         """
-        return lambda x: \
+        return lambda x, _: \
             sum(map(lambda y: y[1] * x ** y[0],
                     enumerate(self.coefficients)))
 

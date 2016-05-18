@@ -20,7 +20,7 @@ if __name__ == '__main__':
     adj_mat = mat_file['A']
     g = Graph.Graph(adj_mat)
     nb_colors = int(sys.argv[2])
-    coloring = Colouring.Colouring(g, nb_colors, lambda n: 100*0.9**floor(n / 1000))
+    coloring = Colouring.Colouring(g, nb_colors, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
     h_hist = coloring.metropolis(10000)
     output = {'X': numpy.array([[e] for e in g.coloring]),
               'E': numpy.array(coloring.H)}
