@@ -4,6 +4,7 @@ from Colouring import Colouring
 import CMDPlot
 import sys
 from statistics import median
+import random
 
 class Bandit_beta:
 
@@ -25,7 +26,7 @@ class Bandit_beta:
     def __init__(self, graph, number_colours, metropolis_iter = 1e5, degree=6, log=True):
         '''
         Create the bandit instance with a polynomial of a given degree.
-        There will be 2*degree arms, each will either increase or decrease
+        There will be 2*degree+2 arms, each will either increase or decrease
         a coefficient with a value of 0.1/i! where i is the i-th power
         corresponding to that coefficient.
 
@@ -42,9 +43,9 @@ class Bandit_beta:
         self.degree = degree
         self.coefficients = [1] * (degree+1)
         self.arms = []
-        self.weights = [1.0] * (2*degree)
-        for i in range(2*degree):
-            v = (-1) ** i * 0.1
+        self.weights = [1.0] * (2*degree+2)
+        for i in range(len(self.weights)):
+            v = (-1) ** i * 0.2
             self.arms.append(self._lambda_change_ith_coefficient(int(i/2), v))
 
         self.min_loss = float('inf') # the minimum loss found so far
@@ -96,15 +97,16 @@ class Bandit_beta:
         if(loss < self.min_loss):
             self.min_coefficients = self.coefficients
             self.min_loss = loss
-        else:
-            self.coefficients = self.min_coefficients
+        # With 99% of the time switch back to the original coefficients
+        elif random.random() > 0.01:
+                self.coefficients = self.min_coefficients
 
         if self.log:
             formated_dist = ', '.join(list(map(lambda x: '%.3e' % x, distribution)))
             print(("Information about step:\n\t%d arms\n\thaving these weights: %s"
                 + "\n\tExploration factor: %f\n\tDistribution: %s\n\tExpert Picked: "
-                + "%d\n\tLoss: %f\n\tUsing polynomial: %s")
-                % (n, str(self.weights), eps, formated_dist, j, loss, str(self)))
+                + "%d\n\tLoss: %f\n\tOptimal loss: %f\n\tUsing polynomial: %s")
+                % (n, str(self.weights), eps, formated_dist, j, loss, self.min_loss, str(self)))
 
 
     def train(self, training_length):
