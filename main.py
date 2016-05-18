@@ -14,11 +14,6 @@ def beta(t):
     return 1.0/(t**.5+1)
 
 if __name__ == '__main__':
-    # Import the mat file that is in the same directory
-    file_name = 'graph_adjacency_matrix'
-    mat_file = si.loadmat(file_name)
-    adj_mat = mat_file['A']
-    # Now we can create a graph using this array (I tested the function)
     # Create a random graph with N = 1000 vertices
     g = Graph.erdos_renyi(1000, 1.87)
     # Create a colouring with q = 750 and a beta function

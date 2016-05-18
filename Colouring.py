@@ -65,6 +65,21 @@ class Colouring:
         plt.grid(True)
         plt.show()
 
+    @staticmethod
+    def plots(hamiltonian_hists):
+        """
+        :param hamiltonian_hists: list of lists of values to plot with parameters
+        """
+        for (q, c, hamiltonian_hist) in hamiltonian_hists:
+            plt.plot(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s, c=%s" % (q, c))
+
+        plt.xlabel('Time (iterations)')
+        plt.ylabel('Hamiltonian of the graph')
+        plt.title('Metropolis Algorithm')
+        plt.grid(True)
+        plt.legend(frameon=False)
+        plt.show()
+
     def step(self):
         v = randrange(self.graph.n)
         old_color = self.graph.coloring[v]

@@ -22,8 +22,6 @@ if __name__ == '__main__':
     nb_colors = int(sys.argv[2])
     coloring = Colouring.Colouring(g, nb_colors, lambda n: 100*0.9**floor(n / 1000))
     h_hist = coloring.metropolis(10000)
-    print(g.n)
-    print(sum(map(sum, g.adjacency)))
     output = {'X': numpy.array([[e] for e in g.coloring]),
               'E': numpy.array(coloring.H)}
     si.savemat('output', output)
