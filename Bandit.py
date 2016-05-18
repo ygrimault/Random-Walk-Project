@@ -100,11 +100,11 @@ class Bandit_beta:
             self.coefficients = self.min_coefficients
 
         if self.log:
-            formatted_dist = ', '.join(list(map(lambda x: '%.3e' % x, distribution)))
+            formated_dist = ', '.join(list(map(lambda x: '%.3e' % x, distribution)))
             print(("Information about step:\n\t%d arms\n\thaving these weights: %s"
                 + "\n\tExploration factor: %f\n\tDistribution: %s\n\tExpert Picked: "
                 + "%d\n\tLoss: %f\n\tUsing polynomial: %s")
-                % (n, str(self.weights), eps, formatted_dist, j, loss, str(self)))
+                % (n, str(self.weights), eps, formated_dist, j, loss, str(self)))
 
 
     def train(self, training_length):
