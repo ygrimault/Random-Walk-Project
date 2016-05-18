@@ -12,8 +12,8 @@ except ImportError:
     sys.exit(1)
 
 if __name__ == '__main__':
-    qs = [3]
-    cs = [7]
+    qs = [3, 5, 7]
+    cs = [5, 10]
 
     hists = []
     for q in qs:
@@ -21,6 +21,6 @@ if __name__ == '__main__':
             n = 1000
             g = Graph.erdos_renyi(n, c)
             coloring = Colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
-            hists.append((q, c, coloring.metropolis(10000)))
+            hists.append((q, c, coloring.metropolis(16000)))
 
     Colouring.Colouring.plots(hists)
