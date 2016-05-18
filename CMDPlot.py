@@ -1,11 +1,11 @@
-'''
+"""
     This simple module implements a function that can plot data to a command
     line. Might be faster than waiting for a gui instance to load and plot
     the data. The plotter is a very crude one.
-'''
+"""
 
 
-def command_line_plot(history, x_precision = 1, y_precision=20, x_start=0):
+def command_line_plot(history, x_precision=1, y_precision=20, x_start=0):
     """
     A poor man's plot. Plot data on the command line.
 
@@ -31,7 +31,7 @@ def command_line_plot(history, x_precision = 1, y_precision=20, x_start=0):
         print('%10d |' % y, end='')
         for i in range(0, len(history), x_step):
             h = history[i]
-            print('*' if y <= h and h < y+y_step else ' ', end='')
+            print('*' if y <= h < y+y_step else ' ', end='')
         print()
 
     # plot the x axis
@@ -45,4 +45,3 @@ def command_line_plot(history, x_precision = 1, y_precision=20, x_start=0):
 
     print("(+%d)" % x_start)
     print("min/max y: %d, %d" % (whole_min, whole_max))
-

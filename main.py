@@ -1,10 +1,14 @@
 import Graph
-import Colouring
-import CMDPlot
 import Bandit
+import sys
 
-import scipy.io as si
-# Make sure you installed it on your computer. I used Anaconda to have it all (@Yannick)
+try:
+    import scipy.io as si
+except ImportError:
+    print("Make sure you installed scipy on your computer")
+    si = None
+    sys.exit(1)
+
 
 def beta(t):
     return 1.0/(t**.5+1)
@@ -15,7 +19,6 @@ if __name__ == '__main__':
     mat_file = si.loadmat(file_name)
     adj_mat = mat_file['A']
     # Now we can create a graph using this array (I tested the function)
-    
     # Create a random graph with N = 1000 vertices
     g = Graph.erdos_renyi(1000, 1.87)
     # Create a colouring with q = 750 and a beta function
@@ -25,5 +28,5 @@ if __name__ == '__main__':
     # # plot the results using the poor-man's plot
     # CMDPlot.command_line_plot(c.metropolis(iter_num), x_precision=120, y_precision=60)
 
-    bandit = Bandit.Bandit_beta(g, 350, metropolis_iter=1e4)
+    bandit = Bandit.BanditBeta(g, 350, metropolis_iter=1e4)
     bandit.train(1000)

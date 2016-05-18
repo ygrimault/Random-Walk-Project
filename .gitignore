@@ -48,3 +48,4 @@ Temporary Items
 .idea/
 log.txt
 __pycache__/
+*.mat

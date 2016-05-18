@@ -1,8 +1,13 @@
 from random import *
 from math import *
+import sys
 
-import matplotlib.pyplot as plt
-# Make sure you installed it on your computer. I used Anaconda to have it all (@Yannick)
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    print("Make sure you installed matplotlib on your computer")
+    plt = None
+    sys.exit(1)
 
 
 class Colouring:
@@ -15,6 +20,7 @@ class Colouring:
         """
         self.graph = graph
         self.q = q
+        self.H = None
         self.beta = beta
         self.t = 0
 
@@ -40,19 +46,19 @@ class Colouring:
 
     def metropolis(self, n):
         self.init_random_coloring()
-        H_hist = [self.H]
+        hamiltonian_hist = [self.H]
         for _ in range(n):
             self.step()
-            H_hist.append(self.H)
+            hamiltonian_hist.append(self.H)
 
-        return H_hist
-        
+        return hamiltonian_hist
 
-    def plot(self, H_hist):
-        '''
-        :param H_history: list of values to plot
-        '''
-        plt.plot(H_hist)
+    @staticmethod
+    def plot(hamiltonian_hist):
+        """
+        :param hamiltonian_hist: list of values to plot
+        """
+        plt.plot(hamiltonian_hist)
         plt.xlabel('Time (iterations)')
         plt.ylabel('Hamiltonian of the graph')
         plt.title('Metropolis Algorithm')

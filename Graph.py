@@ -1,5 +1,6 @@
 from random import *
 
+
 class Graph:
     """ Graph with vertices that can be colored """
 
