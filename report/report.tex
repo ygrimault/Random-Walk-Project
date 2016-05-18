@@ -1,14 +1,74 @@
 \documentclass[a4paper, 11pt]{article}
+\usepackage{mathpazo}
+\usepackage{amsmath}	
+\usepackage{amssymb}	
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{subfig}
+\usepackage{placeins}
+\usepackage{stmaryrd}
+\usepackage{minted}
+\usepackage{tikz}
+\usepackage[top=2cm, bottom=2cm, right=2cm, left=2cm]{geometry}
+\usepackage[pdfencoding=auto, hidelinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{xparse}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+
+\DeclareDocumentCommand{\todo}{g}{
+	\textcolor{red}{{\Large TODO}}
+	\IfNoValueF{#1}{
+		\textcolor{red}{{\Large: #1}}
+	}
+}
+
+\DeclareDocumentCommand{\wtf}{g}{
+	\textcolor{red}{{\Large WTF}}
+	\IfNoValueF{#1}{
+		\textcolor{red}{{\Large: #1}}
+	}
+}
 
 \title{Simulated annealing algorithm for graph coloring}
 \author{
-	Marc \textsc{Chevalier},
-	Yannick \textsc{Grimault},
+	Marc \textsc{Chevalier}\\
+	Yannick \textsc{Grimault}\\
 	George \textsc{Zakhour}
 }
 
 \begin{document}
 \maketitle
 
+\section{Choice of \texorpdfstring{$\beta$}{β}}
+
+
+To choose $\beta$ among all possible functions, our first approach was to use a polynomial and, using bandit, make the coefficient converge to an optimal polynomial for the given degree. We hopped that the coefficient represent a well known power series and retrieve a good function. But several problem appears. First, this problem is not a priori convex. Thus, the best we can do is to find a local minimum (or use simulated annealing but it makes the problem recursive). However, this method is still useful to find local minima which can be good idea or to test if a candidate function is a minimum: in this case, it is a fixpoint.
+
+Starting from the initial polynomial $\sum\limits_{i=0}^n X^i$, the algorithm converge quickly but to a very close polynomial. This is not a good news a priori since $\sum\limits_{i=0} X^i = \frac{1}{1-x}$ with a radius of convergence of 1. This is a bad news since the temperature is affine decreasing, thus reach 0 in finite time, ie. $\beta$ diverges in finite time.
+
+\bigskip
+
+Functions of the form $x\mapsto \exp(ax)$ are pretty interesting for different reasons. First (but not very convincing) the inverse is a function of the form $x\mapsto \exp(-ax)$ which is the kind of functions we found when we let an object cool. Moreover, it is this kind of function we found in the literature (eg.~\cite{chams1987some}). Finally, these functions are fixpoints of our bandit. So, it seems reasonable to use a function like
+\[
+	\begin{aligned}
+		\beta : \NN &\to \RR\\
+		n &\mapsto \beta_0\exp\left(-a\left\lfloor \frac{n}{\tau} \right\rfloor \right)
+	\end{aligned}
+\]
+This function is constant on any interval $\llbracket k\tau; (k+1)\tau -1\rrbracket$ for all integer $k$ and $\forall k\in\NN, \exp(-a)\beta(k\tau) = \beta((k+1)\tau)$. Thus, in the following, we will adapt only two parameters: $a$ and $\tau$ (which impact strongly the quality of the result~\cite{chams1987some}).
+
+To find these parameters we have used a modified version of the bandit. \todo{results}
+
+
+\section{Comments on the implementation}
+
+The graph is stored as the adjacency lists. They are efficient for storing and allow direct access of the neighbours.
+
+The colouring is compute by another class. In an optimizing aim, the Hamiltonian is simply updated and not recomputed at each step. For the sake of flexibility, the parameter $\beta$ is a function. In this way, we allow any pattern for beta without modifying this class.
+
+\bibliographystyle{alpha}
+\bibliography{report}
 
 \end{document}
