@@ -18,6 +18,7 @@ if __name__ == '__main__':
         sys.exit(1)
     mat_file = si.loadmat(sys.argv[1])
     adj_mat = mat_file['A']
+    n = len(adj_mat)
     g = Graph.Graph(adj_mat)
     nb_colors = int(sys.argv[2])
     coloring = Colouring.Colouring(g, nb_colors, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))

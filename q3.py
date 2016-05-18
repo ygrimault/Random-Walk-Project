@@ -21,6 +21,6 @@ if __name__ == '__main__':
             n = 1000
             g = Graph.erdos_renyi(n, c)
             coloring = Colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
-            hists.append((q, c, coloring.metropolis(16000)))
+            hists.append((q, c, coloring.metropolis(25000)))
 
     Colouring.Colouring.plots(hists)
