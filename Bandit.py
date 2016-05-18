@@ -7,13 +7,13 @@ from statistics import median
 
 class Bandit_beta:
 
-    def _lambda_change_ith_cooeficient(self, i, v):
+    def _lambda_change_ith_coefficient(self, i, v):
         '''
-        Generates a lambda that when invoked on a set of cooficients will
+        Generates a lambda that when invoked on a set of coefficients will
         increment the i-th one by v
 
-        :param i: the i-th cooficient
-        :param v: the additive constant to add to the i-th cooficient
+        :param i: the i-th coefficient
+        :param v: the additive constant to add to the i-th coefficient
 
         :return: lambda : \R^{degree+1} -> \R^{degree+1}
         '''
@@ -26,8 +26,8 @@ class Bandit_beta:
         '''
         Create the bandit instance with a polynomial of a given degree.
         There will be 2*degree arms, each will either increase or decrease
-        a cooeficient with a value of 0.1/i! where i is the i-th power
-        coresponding to that cooficient.
+        a coefficient with a value of 0.1/i! where i is the i-th power
+        corresponding to that coefficient.
 
         :param graph: graph on which to do the colouring
         :param number_colours: number of colours to colour the graph
@@ -40,15 +40,15 @@ class Bandit_beta:
         self.metropolis_iter = metropolis_iter
         self.log = log # Whether or not to log the process
         self.degree = degree
-        self.cooficients = [1] * (degree+1)
+        self.coefficients = [1] * (degree+1)
         self.arms = []
         self.weights = [1.0] * (2*degree)
         for i in range(2*degree):
             v = (-1) ** i * 0.1
-            self.arms.append(self._lambda_change_ith_cooeficient(int(i/2), v))
+            self.arms.append(self._lambda_change_ith_coefficient(int(i/2), v))
 
         self.min_loss = float('inf') # the minimum loss found so far
-        self.min_cooeficients = [] # ^ its corresponding coefficients
+        self.min_coefficients = [] # ^ its corresponding coefficients
 
 
     def loss(self, j):
@@ -60,7 +60,7 @@ class Bandit_beta:
         :param j: the index of the arm selected
         :return: l \in [0, 1] (Needed to have a guarantee on the convergence)
         '''
-        self.cooficients = self.arms[j](self.cooficients)
+        self.coefficients = self.arms[j](self.coefficients)
         new_beta = self.get_polynomial()
         losses = []
         for _ in range(10):
@@ -75,7 +75,7 @@ class Bandit_beta:
         '''
         Performs one step of the EXP3 algorithm:
             1. Convert the weights into a distribution
-            2. Acount for the exploration factor in the distribution
+            2. Account for the exploration factor in the distribution
             3. Pick an arm based on this distribution
             4. Compute the loss produced by this arm and update its weight
         '''
@@ -94,17 +94,17 @@ class Bandit_beta:
         # We will always keep a copy of the "best" polynomial, that is the one
         # that gave the smallest loss. And carry on from it.
         if(loss < self.min_loss):
-            self.min_cooeficients = self.cooficients
+            self.min_coefficients = self.coefficients
             self.min_loss = loss
         else:
-            self.cooficients = self.min_cooeficients
+            self.coefficients = self.min_coefficients
 
         if self.log:
-            formated_dist = ', '.join(list(map(lambda x: '%.3e' % x, distribution)))
+            formatted_dist = ', '.join(list(map(lambda x: '%.3e' % x, distribution)))
             print(("Information about step:\n\t%d arms\n\thaving these weights: %s"
                 + "\n\tExploration factor: %f\n\tDistribution: %s\n\tExpert Picked: "
                 + "%d\n\tLoss: %f\n\tUsing polynomial: %s")
-                % (n, str(self.weights), eps, formated_dist, j, loss, str(self)))
+                % (n, str(self.weights), eps, formatted_dist, j, loss, str(self)))
 
 
     def train(self, training_length):
@@ -130,7 +130,7 @@ class Bandit_beta:
         '''
         return lambda x:\
                 sum(map(lambda y: y[1] * x ** y[0],
-                        enumerate(self.cooficients)))
+                        enumerate(self.coefficients)))
 
 
     def __repr__(self):
@@ -143,4 +143,4 @@ class Bandit_beta:
                                 ('+ ' if x[1] >= 0 else '- ')
                                 + (str(abs(x[1])) if abs(x[1]) != 1 else '')
                                 + ('x^' + str(x[0]) if x[0] > 0 else ('1' if abs(x[1]) == 1 else '')),
-                            enumerate(self.cooficients)))
+                            enumerate(self.coefficients)))

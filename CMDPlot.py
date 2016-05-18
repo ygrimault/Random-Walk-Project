@@ -10,7 +10,7 @@ def command_line_plot(history, x_precision = 1, y_precision=20, x_start=0):
     A poor man's plot. Plot data on the command line.
 
     :param history: An array of numerical values to plot.
-                    The index is ploted on the horizontal axis and the value on
+                    The index is plotted on the horizontal axis and the value on
                     the vertical axis
     :param x_precision: How many ticks to show on the horizontal axis.
     :param y_precision: How many ticks to show on the vertical axis.
