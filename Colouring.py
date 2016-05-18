@@ -44,15 +44,20 @@ class Colouring:
         for _ in range(n):
             self.step()
             H_hist.append(self.H)
+
+        return H_hist
         
+
+    def plot(self, H_hist):
+        '''
+        :param H_history: list of values to plot
+        '''
         plt.plot(H_hist)
         plt.xlabel('Time (iterations)')
         plt.ylabel('Hamiltonian of the graph')
         plt.title('Metropolis Algorithm')
         plt.grid(True)
         plt.show()
-
-        return H_hist
 
     def step(self):
         v = randrange(self.graph.n)
