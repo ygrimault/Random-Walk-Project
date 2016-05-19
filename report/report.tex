@@ -10,7 +10,7 @@
 \usepackage{stmaryrd}
 \usepackage{minted}
 \usepackage{tikz}
-\usepackage[top=2cm, bottom=2cm, right=2cm, left=2cm]{geometry}
+\usepackage[top=3cm, bottom=4cm, right=2cm, left=2cm]{geometry}
 \usepackage[pdfencoding=auto, hidelinks]{hyperref}
 \usepackage{bookmark}
 \usepackage{xparse}
@@ -63,7 +63,21 @@ This function is constant on any interval $\llbracket k\tau; (k+1)\tau -1\rrbrac
 
 To find these parameters we have used a modified version of the bandit. \todo{results}
 
-The bandit as we did it find only constant parameters. To follow the idea of the paper, hoping we improve the quality of the approximation, we allow $\tau$ to depend on the previous $\beta$, thus $\beta(n)$ for $n>0$ depends on $n$ and $\beta(n-1)$. In the simulations, we take $\beta_0 = {\lvert V\rvert}^{-\frac{1}{2}}$, $\tau = \floor{\exp(2\beta(n-1))+\frac{1}{2}}$ (nearest integer) and $a = -\ln(0.93)$.
+The bandit as we did it find only constant parameters. To follow the idea of the paper, hoping we improve the quality of the approximation, we allow $\tau$ to depend on the previous $\beta$, thus $\beta(n)$ for $n>0$ depends on $n$ and $\beta(n-1)$. In the simulations, we take $\beta_0 = {\lvert V\rvert}^{-\frac{1}{2}}$, $\tau = \floor{\exp(2\beta(n-1))+\frac{1}{2}}$ (nearest integer) and $a = -\ln(0.93)$. We can rewrite
+
+\[
+	\begin{aligned}
+		\beta : \NN\times\RR &\to \RR\\
+		(n, b) &\mapsto \begin{cases} \frac{b}{0.93} & \text{if } n \equiv 0\left[\floor{\exp(2\beta(n-1))+\frac{1}{2}}\right] \\ b & \text{otherwise}\end{cases}
+	\end{aligned}
+\]
+and we use the sequence
+\[
+	\begin{aligned}
+		\left(\beta_n\right)_{n\in\NN} : \NN &\to \RR\\
+		n &\mapsto \begin{cases} {\lvert V\rvert}^{-\frac{1}{2}} & n = 0 \\ \beta(n, \beta_{n-1}) & n \geqslant 1 \end{cases}
+	\end{aligned}
+\]
 
 \section{Comments on the implementation}
 
