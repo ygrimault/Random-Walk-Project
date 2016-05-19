@@ -36,13 +36,13 @@ def plots(hamiltonian_hists):
 if __name__ == '__main__':
     qs = [3, 5, 7]
     cs = [5, 10]
+    n = 1000
 
     hists = []
     for q in qs:
         for c in cs:
-            n = 1000
             g = graph.erdos_renyi(n, c)
-            coloring = colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
+            coloring = colouring.Colouring(g, q, lambda step, b: (1/0.93)*b if step % floor(exp(2*b)+0.5) == 0 else b)
             hists.append((q, c, coloring.metropolis(10**6, show_progress=True)))
 
     for hist in hists:

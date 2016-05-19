@@ -40,7 +40,7 @@ if __name__ == '__main__':
     n = len(adj_mat)
     g = graph.Graph(adj_mat)
     nb_colors = int(sys.argv[2])
-    coloring = colouring.Colouring(g, nb_colors, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
+    coloring = colouring.Colouring(g, nb_colors, lambda step, b: (1/0.93)*b if step % floor(exp(2*b)+0.5) == 0 else b)
     nb_steps = 10**4
     if len(sys.argv) >= 4:
         nb_steps = int(sys.argv[3])

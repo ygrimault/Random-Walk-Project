@@ -53,7 +53,7 @@ if __name__ == '__main__':
             r = (progressbar.ProgressBar(redirect_stdout=True))(r)
         for c in r:
             g = graph.erdos_renyi(n, c)
-            coloring = colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1 / 0.93) ** floor(step / exp(2 * b)))
+            coloring = colouring.Colouring(g, q, lambda step, b: (1/0.93)*b if step % floor(exp(2*b)+0.5) == 0 else b)
             (h_hist, min_index, _) = coloring.metropolis(10 ** 5, get_min=True)
             hist.append(h_hist[min_index])
         hists.append((q, hist))
