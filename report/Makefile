@@ -6,10 +6,16 @@ all:
 	$(MAKE) biblio
 	$(MAKE) latex
 	$(MAKE) latex
+	$(MAKE) dvips
+	$(MAKE) ps2pdf
 
 latex:
 	latex -interaction=nonstopmode -shell-escape $(FILE).tex
+
+dvips:
 	dvips -o $(FILE).ps $(FILE).dvi
+
+ps2pdf:
 	ps2pdf $(FILE).ps
 
 biblio: report.bib
