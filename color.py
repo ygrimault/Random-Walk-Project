@@ -49,5 +49,5 @@ if __name__ == '__main__':
     print("Reached at: %d" % min_index)
     output = {'X': numpy.array([[e] for e in opt_coloring]),
               'E': numpy.array(h_hist[min_index])}
-    si.savemat('output', output)
+    si.savemat('output_%d' % h_hist[min_index], output)
     plot(h_hist)
