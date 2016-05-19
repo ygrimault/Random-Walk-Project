@@ -5,11 +5,33 @@ import Graph
 import Colouring
 
 try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    print("Make sure you installed matplotlib on your computer")
+    plt = None
+    sys.exit(1)
+
+try:
     import scipy.io as si
 except ImportError:
     print("Make sure you installed scipy on your computer")
     si = None
     sys.exit(1)
+
+
+def plots(hamiltonian_hists):
+    """
+    :param hamiltonian_hists: list of lists of values to plot with parameters
+    """
+    for (q, c, hamiltonian_hist) in hamiltonian_hists:
+        plt.semilogx(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s, c=%s" % (q, c))
+
+    plt.xlabel('Time (iterations)')
+    plt.ylabel('Hamiltonian of the graph')
+    plt.title('Metropolis Algorithm')
+    plt.grid(True)
+    plt.legend(frameon=False)
+    plt.show()
 
 if __name__ == '__main__':
     qs = [3, 5, 7]
@@ -21,6 +43,8 @@ if __name__ == '__main__':
             n = 1000
             g = Graph.erdos_renyi(n, c)
             coloring = Colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
-            hists.append((q, c, coloring.metropolis(25000)))
+            hists.append((q, c, coloring.metropolis(10**6, show_progress=True)))
 
-    Colouring.Colouring.plots(hists)
+    for hist in hists:
+        print(hist[-1][-1])
+    plots(hists)

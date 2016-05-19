@@ -3,11 +3,9 @@ from math import *
 import sys
 
 try:
-    import matplotlib.pyplot as plt
+    import progressbar
 except ImportError:
-    print("Make sure you installed matplotlib on your computer")
-    plt = None
-    sys.exit(1)
+    progressbar = None
 
 
 class Colouring:
@@ -43,41 +41,19 @@ class Colouring:
                     h += 1
         return h/2
 
-    def metropolis(self, n):
+    def metropolis(self, n, show_progress=False):
         self.init_random_coloring()
         hamiltonian_hist = [self.H]
-        for _ in range(n):
+        if progressbar and show_progress:
+            bar = progressbar.ProgressBar(redirectoutput=True)
+            r = bar(range(n))
+        else:
+            r = range(n)
+        for _ in r:
             self.step()
             hamiltonian_hist.append(self.H)
 
         return hamiltonian_hist
-
-    @staticmethod
-    def plot(hamiltonian_hist):
-        """
-        :param hamiltonian_hist: list of values to plot
-        """
-        plt.plot(hamiltonian_hist)
-        plt.xlabel('Time (iterations)')
-        plt.ylabel('Hamiltonian of the graph')
-        plt.title('Metropolis Algorithm')
-        plt.grid(True)
-        plt.show()
-
-    @staticmethod
-    def plots(hamiltonian_hists):
-        """
-        :param hamiltonian_hists: list of lists of values to plot with parameters
-        """
-        for (q, c, hamiltonian_hist) in hamiltonian_hists:
-            plt.plot(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s, c=%s" % (q, c))
-
-        plt.xlabel('Time (iterations)')
-        plt.ylabel('Hamiltonian of the graph')
-        plt.title('Metropolis Algorithm')
-        plt.grid(True)
-        plt.legend(frameon=False)
-        plt.show()
 
     def step(self):
         v = randrange(self.graph.n)
