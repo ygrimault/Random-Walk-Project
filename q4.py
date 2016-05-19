@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from math import *
 import sys
-import Graph
-import Colouring
+import graph
+import colouring
 
 try:
     import matplotlib.pyplot as plt
@@ -29,7 +29,7 @@ def plots(hamiltonian_hists):
     :param hamiltonian_hists: list of lists of values to plot with parameters
     """
     for (q_, hamiltonian_hist) in hamiltonian_hists:
-        plt.plot(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s" % (q_))
+        plt.plot(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s" % q_)
 
     plt.xlabel('Mean connectivity (c)')
     plt.ylabel('Optimal hamiltonian found')
@@ -52,8 +52,8 @@ if __name__ == '__main__':
         if progressbar:
             r = (progressbar.ProgressBar(redirectouput=True))(r)
         for c in r:
-            g = Graph.erdos_renyi(n, c)
-            coloring = Colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1 / 0.93) ** floor(step / exp(2 * b)))
+            g = graph.erdos_renyi(n, c)
+            coloring = colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1 / 0.93) ** floor(step / exp(2 * b)))
             (h_hist, min_index, _) = coloring.metropolis(10 ** 5, get_min=True)
             hist.append(h_hist[min_index])
         hists.append((q, hist))

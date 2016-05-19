@@ -1,6 +1,6 @@
 from math import exp
 from scipy import stats
-from Colouring import Colouring
+from colouring import Colouring
 import sys
 from statistics import median
 import random

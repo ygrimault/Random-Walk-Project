@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from math import *
 import sys
-import Graph
-import Colouring
+import graph
+import colouring
 
 try:
     import matplotlib.pyplot as plt
@@ -41,8 +41,8 @@ if __name__ == '__main__':
     for q in qs:
         for c in cs:
             n = 1000
-            g = Graph.erdos_renyi(n, c)
-            coloring = Colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
+            g = graph.erdos_renyi(n, c)
+            coloring = colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1/0.93) ** floor(step / exp(2*b)))
             hists.append((q, c, coloring.metropolis(10**6, show_progress=True)))
 
     for hist in hists:
