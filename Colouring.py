@@ -1,6 +1,5 @@
 from random import *
 from math import *
-import sys
 
 try:
     import progressbar
@@ -39,11 +38,13 @@ class Colouring:
             for j in self.graph.adjacency[i]:
                 if self.graph.coloring[i] == self.graph.coloring[j]:
                     h += 1
-        return h/2
+        return int(h/2)
 
-    def metropolis(self, n, show_progress=False):
+    def metropolis(self, n, show_progress=False, get_min=False):
         self.init_random_coloring()
         hamiltonian_hist = [self.H]
+        min_index = 0
+        opt_coloring = self.graph.coloring
         if progressbar and show_progress:
             bar = progressbar.ProgressBar(redirectoutput=True)
             r = bar(range(n))
@@ -51,8 +52,13 @@ class Colouring:
             r = range(n)
         for _ in r:
             self.step()
+            if self.H < hamiltonian_hist[min_index]:
+                min_index = len(hamiltonian_hist)
+                opt_coloring = self.graph.coloring
             hamiltonian_hist.append(self.H)
 
+        if get_min:
+            return hamiltonian_hist, min_index, opt_coloring
         return hamiltonian_hist
 
     def step(self):

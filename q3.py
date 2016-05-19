@@ -23,8 +23,8 @@ def plots(hamiltonian_hists):
     """
     :param hamiltonian_hists: list of lists of values to plot with parameters
     """
-    for (q, c, hamiltonian_hist) in hamiltonian_hists:
-        plt.semilogx(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s, c=%s" % (q, c))
+    for (q_, c_, hamiltonian_hist) in hamiltonian_hists:
+        plt.semilogx(range(len(hamiltonian_hist)), hamiltonian_hist, label="q=%s, c=%s" % (q_, c_))
 
     plt.xlabel('Time (iterations)')
     plt.ylabel('Hamiltonian of the graph')

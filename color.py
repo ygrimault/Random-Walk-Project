@@ -44,8 +44,10 @@ if __name__ == '__main__':
     nb_steps = 10**4
     if len(sys.argv) >= 4:
         nb_steps = int(sys.argv[3])
-    h_hist = coloring.metropolis(nb_steps)
-    output = {'X': numpy.array([[e] for e in g.coloring]),
-              'E': numpy.array(coloring.H)}
+    (h_hist, min_index, opt_coloring) = coloring.metropolis(nb_steps, get_min=True)
+    print("Minimum energy: %d" % h_hist[min_index])
+    print("Reached at: %d" % min_index)
+    output = {'X': numpy.array([[e] for e in opt_coloring]),
+              'E': numpy.array(h_hist[min_index])}
     si.savemat('output', output)
     plot(h_hist)
