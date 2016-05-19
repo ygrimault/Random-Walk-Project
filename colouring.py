@@ -20,7 +20,7 @@ class Colouring:
         self.H = None
         self.beta = beta
         self.t = 0
-        self.previous_beta = sqrt(self.graph.n)
+        self.previous_beta = 1/sqrt(self.graph.n)
 
     def init_random_coloring(self):
         """
