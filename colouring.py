@@ -46,7 +46,7 @@ class Colouring:
         min_index = 0
         opt_coloring = self.graph.coloring
         if progressbar and show_progress:
-            bar = progressbar.ProgressBar(redirectoutput=True)
+            bar = progressbar.ProgressBar(redirect_stdout=True)
             r = bar(range(n))
         else:
             r = range(n)

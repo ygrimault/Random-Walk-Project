@@ -50,7 +50,7 @@ if __name__ == '__main__':
         hist = []
         r = range(c_min, c_max+1)
         if progressbar:
-            r = (progressbar.ProgressBar(redirectouput=True))(r)
+            r = (progressbar.ProgressBar(redirect_stdout=True))(r)
         for c in r:
             g = graph.erdos_renyi(n, c)
             coloring = colouring.Colouring(g, q, lambda step, b: sqrt(n) * (1 / 0.93) ** floor(step / exp(2 * b)))
