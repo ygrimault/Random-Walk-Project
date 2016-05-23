@@ -4,6 +4,7 @@ import sys
 import numpy
 import graph
 import colouring
+import os
 
 try:
     import matplotlib.pyplot as plt
@@ -44,10 +45,10 @@ if __name__ == '__main__':
     nb_steps = 10**4
     if len(sys.argv) >= 4:
         nb_steps = int(sys.argv[3])
-    (h_hist, min_index, opt_coloring) = coloring.metropolis(nb_steps, get_min=True)
+    (h_hist, min_index, opt_coloring) = coloring.metropolis(nb_steps, get_min=True, show_progress=True)
     print("Minimum energy: %d" % h_hist[min_index])
     print("Reached at: %d" % min_index)
     output = {'X': numpy.array([[e] for e in opt_coloring]),
               'E': numpy.array(h_hist[min_index])}
-    si.savemat('output_q%d_E%d' % (nb_colors, h_hist[min_index]), output)
+    si.savemat('output_%s_q%d_E%d' % (os.path.splitext(sys.argv[1])[0], nb_colors, h_hist[min_index]), output)
     plot(h_hist)
