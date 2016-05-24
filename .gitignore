@@ -49,3 +49,4 @@ Temporary Items
 log.txt
 __pycache__/
 *.mat
+*.tar

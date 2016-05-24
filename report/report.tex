@@ -61,7 +61,50 @@ Functions of the form $x\mapsto k\exp(ax)$ are pretty interesting for different 
 \]
 This function is constant on any interval $\llbracket k\tau; (k+1)\tau -1\rrbracket$ for all non negative integer $k$ and $\forall k\in\NN, \exp(-a)\beta(k\tau) = \beta((k+1)\tau)$. Thus, in the following, we will adapt only two parameters: $a$ and $\tau$ (which impact strongly the quality of the result~\cite{chams1987some}).
 
-To find these parameters we have used a modified version of the bandit. \todo{results}
+\bigskip
+
+To find these parameters we have used a modified version of the bandit. This modified version find parameters for function of the kind
+\[
+    \begin{aligned}
+        T_0\exp\left(a\floor{\frac{t}{\tau}}\right)\\
+        D \log \left(a\floor{\frac{t}{\tau}}\right)\\
+    \end{aligned}
+\]
+and polynomials of even degree (to make it eventually increasing).
+
+The training will be on $N=1,000$, $c=1.8$ \textsc{Erd\H{o}s-Rényi} graphs, with $q=350$ with $10^5$ iterations and $10^3$ training iterations. We found 
+\[
+    \begin{aligned}
+        T_0 &= 0.1804650338327954\\
+        a &= 0.27589083443314216\\
+        \tau &= 0.2636146997656065
+    \end{aligned}
+\]
+for the exponential template;
+\[
+    \begin{aligned}
+        D &= 0.5357772669421985\\
+        a &= 0.42420373626324126\\
+        \tau &= 0.24363787675626594
+    \end{aligned}
+\]
+for the logarithmic and 
+\[
+    \begin{aligned}
+        a_6 &= 0.5333943828151356\\
+        a_5 &= 0.34853663647677974\\
+        a_4 &= 0.2939520118031287\\
+        a_3 &= 0.036519409261101816\\
+        a_2 &= 0.3979449513629346\\
+        a_1 &= 0.2301275042112049\\
+        a_0 &= 0.22573398455243218
+    \end{aligned}
+\]
+But, as said before, these coefficients describe only a local optimum. In fact, the polynomial do not look like anything well-known and the two others function have $\tau < 1$, so, not only the function is not constant on interval larger than 1, but also it skip steps.
+
+This method have a important sensitivity to the initial conditions.
+
+\bigskip
 
 The bandit as we did it can only find constant parameters. To follow the idea of the paper, hoping we improve the quality of the approximation, we allow $\tau$ to depend on the previous $\beta$, thus $\beta(n)$ for $n>0$ depends on $n$ and $\beta(n-1)$. In the simulations, we take $\beta_0 = {\lvert V\rvert}^{-\frac{1}{2}}$, $\tau = \floor{\exp(2\beta(n-1))+\frac{1}{2}}$ (nearest integer) and $a = -\ln(0.93)$. We can rewrite
 
@@ -106,7 +149,7 @@ For some heavy computation (such as the question 4), we used multiprocessing in 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{figures/q3}
-    \caption{Hamiltonian as a function of time on an \textsc{Erd\H{o}s-Renyi} graph with 1000 vertices}
+    \caption{Hamiltonian as a function of time on an \textsc{Erd\H{o}s-Rényi} graph with 1000 vertices}
 \end{figure}
 
 We tried the decade $[10^6; 10^7]$ but nothing happen here (except wailing of a suffering RAM).
@@ -115,12 +158,28 @@ We see that the energy drops at least to a third. In some case, a perfect colour
 
 \FloatBarrier
 
+We can compare to the expected chromatic number in  \textsc{Erd\H{o}s-Rényi} graphs. According to \cite{mcdiarmid1990chromatic}, the chromatic number is almost surely $\chi=\frac{n}{2 \log_b n-2 \log_b \log_b n + O(1)}$ where $b = \frac{1}{1 - p}$ and $n$ is the number of vertices. For $c = 10$ and $N = 1000$, we have, $p = \frac{c}{N} = 0.01$ and $\chi = \frac{1000}{74.616673+O(1)}$ which is not very useful since we do not know $O(1)$.
+
+However, according to \cite{coja2008chromatic}, we can have a more precise value. First, we need to check that $p < n^{-\frac{3}{4}}$. Since $1000^{-\frac{3}{4}} = 0.005623413252$, we have $c = pn = 0.005623413252 \times 1000 = 5.623413252$, so we can apply the formula of this paper for $c = 5$. It states that $\chi \in \llbracket l, l+2\rrbracket$ where $l$ is the maximum integer satisfying $2(l-1)\log(l-1)\leqslant p(n-1)$ so $2(l-1)\log(l-1)\leqslant \frac{c}{n}(n-1)$ which can be solve for $l$ 
+\[
+    \floor{\frac{1}{2}\frac{cn-c+2n W\left(\frac{c}{2}\frac{n-1}{n}\right)}{n W\left(\frac{c}{2}\frac{n-1}{n}\right)}}
+\]
+which is represented by
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/chi}
+    \caption{$l$ as a function of $c$}\label{chi}
+\end{figure}
+For $c=5$, we have almost surely $\chi \in \llbracket 3, 5\rrbracket$. And our experiment shows that we succeed to colour the graph with 5 colours but not with 3. Thus, we can assume we are close to the truth.
+
+\FloatBarrier
+
 \section{Question 4}
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{figures/q4}
-    \caption{Minimum Hamiltonian as a function of the connectivity on \textsc{Erd\H{o}s-Renyi} graphs with 1000 vertices and $10^5$ iterations}
+    \caption{Minimum Hamiltonian as a function of the connectivity on \textsc{Erd\H{o}s-Rényi} graphs with 1000 vertices and $10^5$ iterations}
 \end{figure}
 
 As expected, when the connectivity increase the Hamiltonian increase as well. We see that we can better colour graph when more colours are allowed. This is pretty obvious, too.
@@ -129,7 +188,7 @@ The curves seems roughly affine but the slope is lower with more colours.
 
 For $q=3$, the energy increase by about 1500 for 5000 new edges. But only 700 when $q=5$ and about 200 when $q=7$.
 
-\todo{More comments?}
+Moreover, if we assume the formula of \cite{coja2008chromatic} is true even without the assumption $p < n^{-\frac{3}{4}}$, we see that the expected chromatic number is actually what wee observe in our simulation: for $q=3$ it seems that there is a perfect colouring until $c=3$, for $q=5$, it is $c=10$ and for $q=7$ it is $c=17$. Which is the same as in figure \ref{chi}.
 
 \FloatBarrier
 
