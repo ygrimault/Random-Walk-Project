@@ -44,7 +44,7 @@ class Colouring:
         self.init_random_coloring()
         hamiltonian_hist = [self.H]
         min_index = 0
-        opt_coloring = list(self.graph.coloring)
+        opt_coloring = self.graph.coloring[:]
         if progressbar and show_progress:
             bar = progressbar.ProgressBar(redirect_stdout=True)
             r = bar(range(n))
@@ -55,7 +55,7 @@ class Colouring:
             hamiltonian_hist.append(self.H)
             if self.H < hamiltonian_hist[min_index]:
                 min_index = len(hamiltonian_hist) - 1
-                opt_coloring = list(self.graph.coloring)
+                opt_coloring = self.graph.coloring[:]
 
         if get_min:
             return hamiltonian_hist, min_index, opt_coloring
