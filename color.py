@@ -34,7 +34,7 @@ def plot(hamiltonian_hist):
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print("Usage: %s file.mat nb_colors [steps]" % sys.argv[0])
+        print("Usage: %s input_file.mat nb_colors [steps]" % sys.argv[0])
         sys.exit(1)
     mat_file = si.loadmat(sys.argv[1])
     adj_mat = mat_file['A']
