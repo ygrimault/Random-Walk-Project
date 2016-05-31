@@ -50,5 +50,8 @@ if __name__ == '__main__':
     print("Reached at: %d" % min_index)
     output = {'X': numpy.array([[e] for e in opt_coloring]),
               'E': numpy.array(h_hist[min_index])}
-    si.savemat('output_%s_q%d_E%d' % (os.path.splitext(sys.argv[1])[0], nb_colors, h_hist[min_index]), output)
-    plot(h_hist)
+    output_filename = 'output_%s_q%d_E%d' % (os.path.splitext(sys.argv[1])[0], nb_colors, h_hist[min_index])
+    si.savemat(output_filename, output)
+    # plot(h_hist)
+    os.system("./check.py %s %s" % (sys.argv[1], output_filename))
+    print()
