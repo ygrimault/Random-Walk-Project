@@ -21,6 +21,7 @@ except ImportError:
     si = None
     sys.exit(1)
 
+os.system("taskset -p 0xfff %d" % os.getpid())
 
 def plot(hamiltonian_hist):
     """
@@ -69,5 +70,5 @@ if __name__ == '__main__':
     output_filename = 'output_%s_q%d_E%d' % (os.path.splitext(sys.argv[1])[0], nb_colors, h_hist[min_index])
     si.savemat(output_filename, output)
     # plot(h_hist)
-    os.system("./check.py %s %s" % (sys.argv[1], output_filename))
-    print()
+    os.system("python check.py %s %s" % (sys.argv[1], output_filename))
+    print ''

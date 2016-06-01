@@ -50,3 +50,4 @@ log.txt
 __pycache__/
 *.mat
 *.tar
+*.pyc
