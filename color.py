@@ -48,7 +48,7 @@ if __name__ == '__main__':
         print("Usage: %s input_file.mat nb_colors [steps] [nb_threads]" % sys.argv[0])
         sys.exit(1)
     mat_file = si.loadmat(sys.argv[1])
-    adj_mat = mat_file['A']
+    adj_mat = mat_file['B']
     n = len(adj_mat)
     nb_colors = int(sys.argv[2])
     nb_steps = 10**4

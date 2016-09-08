@@ -56,6 +56,8 @@ class Colouring:
             if self.H < hamiltonian_hist[min_index]:
                 min_index = len(hamiltonian_hist) - 1
                 opt_coloring = self.graph.coloring[:]
+            if self.H == 0:
+                break
 
         if get_min:
             return hamiltonian_hist, min_index, opt_coloring

@@ -14,7 +14,7 @@ if __name__ == '__main__':
         print("Usage: ./color file.mat output.mat")
         sys.exit(1)
     mat_file = si.loadmat(sys.argv[1])
-    adj_mat = mat_file['A']
+    adj_mat = mat_file['B']
     n = len(adj_mat)
     g = graph.Graph(adj_mat)
 

@@ -6,7 +6,13 @@ class Graph:
 
     def __init__(self, mat):
         self.n = len(mat)
-        self.adjacency = list(map(lambda row: set([i for i, x in enumerate(row) if x == 1]), mat))
+        # self.adjacency = list(map(lambda row: set([i for i, x in enumerate(row) if x == 1]), mat))
+        self.adjacency = [set() for _ in range(self.n)]
+        for i in range(self.n):
+            for j in range(i):
+                if mat[i][j] == 1:
+                    self.adjacency[i].add(j)
+                    self.adjacency[j].add(i)
         self.coloring = [0] * self.n
 
     def __repr__(self):
